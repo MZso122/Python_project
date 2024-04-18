@@ -17,6 +17,7 @@ def print_hi(name):
         print(f'Hi, {name} \n')  
 
 
+# ez a subject_info -t olvassa be
 def readCSV_File(file_path):
     subject_info_ = []
 
@@ -31,12 +32,15 @@ def readCSV_File(file_path):
     return subject_info_
 
 
+# kiíratáshoz használt...
 def generateCSV(darab_, file_name):
     a = numpy.asarray(darab_)
     # print(a)
     numpy.savetxt(file_name, a.astype(int), fmt='%i',  delimiter=',')
     # numpy.savetxt(f, result.astype(int), fmt='%i', delimiter=",")
 
+
+# ez a klaszterekbe került jelek görbéinek olvasásához kell
 def readCSVFileNezegeto(file_path):
     gorbe = []
 
@@ -51,6 +55,9 @@ def readCSVFileNezegeto(file_path):
     return gorbe
 
 
+#némely matpoltlib-es cucchoz kell egy adatsor hosszú tengelyt generálni,
+# mert nem megy anélkül. Ez egy ilyet csinál. Bemenetnek pedig maga az
+# adatsor kell, itt számolok hosszát is.
 def generateX_axis(data_):
     array_of_1s = []
     for i in range(len(data_)):
