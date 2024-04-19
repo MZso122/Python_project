@@ -86,7 +86,7 @@ if __name__ == '__main__':
         print("jo lenne vmi eleresi_ut/nev a kiirt fajlnak")
 
     # az osszes subjectet tartalmazo csv file beolvasasa
-    # es ndarray-va konvertalas a egyszerusegert jovoben
+    # es ndarray-va konvertalas az egyszerusegert jovoben
     subject_info = readCSV_File('D:/subject-info.csv')
     ndarray_subj_info = numpy.asarray(subject_info)
 
@@ -96,7 +96,7 @@ if __name__ == '__main__':
     obj_path_for_red = 'D:/piros_gorbek_only'
 
     #
-    # --------------ez egy nagy szűrés ami végig megy a fájlokon és csak az ide kellőket olvassa be---------------------
+    # --------------ez egy nagy szűrés ami végigmegy a fájlokon és csak az ide kellőket olvassa be---------------------
     # -------------- a többit eldobja, vagy átugorja. Ehhez használ többféle értéket is amiket a -----------------------
     # -------------- feature-vector ból olvas be. ----------------------------------------------------------------------
 
@@ -106,7 +106,7 @@ if __name__ == '__main__':
     # 1 -> diastole_avg       (prssr)
     # 2 -> how_many_thrown          (a rossznak itelt szegmensek szama az atlagvetel soran)
     # 3 -> how_many_kiindulo_sig            (eredetileg mennyi jelszegmens volt)
-    # 4 -> avg_sig_le   (ez hatarozza meg a max jel hoszt, ebben a lepesbe(clastering) eljut, igy itt ez a relevans max)
+    # 4 -> avg_sig_le   (ez hatarozza meg a max jel hoszt, ebben a lepesben(clastering) eljut, igy itt ez a relevans max)
     # 5 -> subject number   (hanyadik alany)
     # 6 -> hany karakterisztikus pontot talaltunk
     # 7+ -> a karakterpontok t, y[=f(t)] koordinataparok sorban: x1, y1, x2, y2, x3.......
@@ -122,14 +122,14 @@ if __name__ == '__main__':
     # a mar feldolgozott feature_vec -ok
     formazott_features = []
     length_L = []
-    # mivel a subj_info ertelem szeruen nem tudja, hogy melyik alany jele (akar reszben)
+    # mivel a subj_info ertelemszeruen nem tudja, hogy melyik alany jele (akar reszben)
     # nem lett feldolgozva feat_vec -ra (mert hibas volt, vagy threshold alatti a minosege),
     # így kellett irjak egy atterest a subj_info es a kept == megtartott fea(ture)_vec -ok kozott
     raw_fea_num_to_subj_keys = []
     kept_fea_num_keys_to_subjs = []
     kept_fea_file_names = []
 
-    # ez a vegetelen sor ertekeli a minosegeket es osszeallitja ez elobbi listakat
+    # ez a vegtelen sor ertekeli a minosegeket es osszeallitja az elobbi listakat
     # itt lehet/van olyan, hogy eldob meg a kapott fea_vec -okbol, ha nem eleg jo a minoseguk.
     for f in range(len(list_of_files_features)):
         temp_features = []
@@ -353,7 +353,7 @@ if __name__ == '__main__':
             for pp in range(int(len(possible_pairs)/2)):
                 # print(pp)
                 # print(pp//rows)
-                # TODO ezek elehet csak akkor jok, ha pontosan jon ki a 'row*col = n alatt a k '
+                # TODO ezek lehet csak akkor jok, ha pontosan jon ki a 'row*col = n alatt a k '
                 axarr2[pp%rows, (pp//rows)].set_ylabel("Dims:{} {}".format(possible_pairs[pp*2], possible_pairs[2*pp+1]), fontsize=8, rotation=90)
                 axarr2[pp%rows, (pp//rows)].scatter(ndarray_feldolgozott_features[row_ix2, possible_pairs[pp*2]], ndarray_feldolgozott_features[row_ix2, possible_pairs[pp*2+1]])
             # pyplot.scatter(ndarray_feldolgozott_features[row_ix2, 0], ndarray_feldolgozott_features[row_ix2, 1])
