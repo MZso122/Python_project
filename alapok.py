@@ -66,8 +66,8 @@ def generateX_axis(data_):
     return array_of_1s
 
 
-
-if __name__ == '__main__':
+def main_fn():
+# if __name__ == '__main__':
     print_hi('PyCharm')
 
     abrak = False
@@ -80,20 +80,20 @@ if __name__ == '__main__':
     nda_age_sex_bwi = []
 
     # a kesz csv ebbe lesz kiiratva __ Mik szerint:(age, s=sex, b=bmi)  __ Milyen modszerrel
-    kiirato_age_s_b_filename_KMEANS = "D:/asb_clusterek_8/KMeans_ASB_cluster_{}.csv"
+    kiirato_age_s_b_filename_KMEANS = "kimenet/asb_clusterek_8/KMeans_ASB_cluster_{}.csv"
     #ez csak egy kezdet az error handling(ek)nek...
     if kiirato_age_s_b_filename_KMEANS == "":
         print("jo lenne vmi eleresi_ut/nev a kiirt fajlnak")
 
     # az osszes subjectet tartalmazo csv file beolvasasa
     # es ndarray-va konvertalas az egyszerusegert jovoben
-    subject_info = readCSV_File('D:/subject-info.csv')
+    subject_info = readCSV_File('subject-info.csv')
     ndarray_subj_info = numpy.asarray(subject_info)
 
     # objektiv eleres a FELDOLGOZATLAN feature vektorok csv-ihez
-    obj_path = 'D:/raw_faetures_only'
+    obj_path = 'raw_features_1st_q'
 
-    obj_path_for_red = 'D:/piros_gorbek_only'
+    obj_path_for_red = 'kimenet/piros_gorbek_only'
 
     #
     # --------------ez egy nagy szűrés ami végigmegy a fájlokon és csak az ide kellőket olvassa be---------------------
