@@ -1,5 +1,6 @@
 import tkinter as tk
-import alapok as alapok
+# import alapok as alapok
+import meghivogato_main as main
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -19,7 +20,9 @@ class Application(tk.Frame):
         self.quit.pack(side="bottom")
 
     def say_hi(self):
-        alapok.main_fn()
+        main.main()
+
+        
 
 root = tk.Tk()
 app = Application(master=root)
