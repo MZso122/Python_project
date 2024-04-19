@@ -80,7 +80,7 @@ def main_fn():
     nda_age_sex_bwi = []
 
     # a kesz csv ebbe lesz kiiratva __ Mik szerint:(age, s=sex, b=bmi)  __ Milyen modszerrel
-    kiirato_age_s_b_filename_KMEANS = "kimenet/asb_clusterek_8/KMeans_ASB_cluster_{}.csv"
+    kiirato_age_s_b_filename_KMEANS = "kimenet/KMeans_ASB_cluster_{}.csv"
     #ez csak egy kezdet az error handling(ek)nek...
     if kiirato_age_s_b_filename_KMEANS == "":
         print("jo lenne vmi eleresi_ut/nev a kiirt fajlnak")
@@ -93,7 +93,7 @@ def main_fn():
     # objektiv eleres a FELDOLGOZATLAN feature vektorok csv-ihez
     obj_path = 'raw_features_1st_q'
 
-    obj_path_for_red = 'kimenet/piros_gorbek_only'
+    obj_path_for_red = 'tomoritett_pirosak'
 
     #
     # --------------ez egy nagy szűrés ami végigmegy a fájlokon és csak az ide kellőket olvassa be---------------------
