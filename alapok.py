@@ -66,8 +66,8 @@ def generateX_axis(data_):
     return array_of_1s
 
 
-def main_fn(cluster_num2:int = 6, abrak:bool = False, show_inertia_KMeans:bool = True, show_KMeans_pelda:bool = False,
-            obj_path:string = 'raw_features_1st_q', obj_path_for_red:string = 'tomoritett_pirosak'):
+def main_fn(cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool = False, show_inertia_KMeans:bool = True, show_KMeans_pelda:bool = False,
+            obj_path = 'raw_features_1st_q', obj_path_for_red = 'tomoritett_pirosak'):
 
 # if __name__ == '__main__':
     print_hi('PyCharm')
@@ -112,7 +112,7 @@ def main_fn(cluster_num2:int = 6, abrak:bool = False, show_inertia_KMeans:bool =
     # 1 -> diastole_avg       (prssr)
     # 2 -> how_many_thrown          (a rossznak itelt szegmensek szama az atlagvetel soran)
     # 3 -> how_many_kiindulo_sig            (eredetileg mennyi jelszegmens volt)
-    # 4 -> avg_sig_le   (ez hatarozza meg a max jel hoszt, ebben a lepesben(clastering) eljut, igy itt ez a relevans max)
+    # 4 -> avg_sig_le  (ez hatarozza meg a max jel hoszt, ebben a lepesben(clastering) eljut, igy itt ez a relevans max)
     # 5 -> subject number   (hanyadik alany)
     # 6 -> hany karakterisztikus pontot talaltunk
     # 7+ -> a karakterpontok t, y[=f(t)] koordinataparok sorban: x1, y1, x2, y2, x3.......
@@ -237,19 +237,20 @@ def main_fn(cluster_num2:int = 6, abrak:bool = False, show_inertia_KMeans:bool =
                 # print(temp_features[0])
 
     # az elobbi for-loop eredmenyeinek kiiratasa
+    print("kiiertekeles:\n")
     print('extran dobva \"keves alpjan\": ', keves_alapjan_atlagolt, 'db')
     print('extra eldobas \"0-as jelminta\" miatt:', jelmintaszam_0as, 'db')
     print('extra dobas \" deriv pont alapjan\": ', nem_jo_pontszam, 'db')
     print('formazott features hossza: ', len(formazott_features))
 
-    print('raw_fea_num_to_subj_keys:\n', raw_fea_num_to_subj_keys)
     nda_raw_fea_num_to_subj_keys = numpy.asarray(raw_fea_num_to_subj_keys)
     nda_kept_fea_num_keys_to_subjs = numpy.asarray(kept_fea_num_keys_to_subjs)
-    print('nda_raw_fea_num_to_subj_keys:\n', nda_raw_fea_num_to_subj_keys)
-    print('\nkept features \\ subjectnums:\n', kept_fea_num_keys_to_subjs,'\n')
+    if(print_extra_info):
+        print('raw_fea_num_to_subj_keys:\n', raw_fea_num_to_subj_keys)
+        print('nda_raw_fea_num_to_subj_keys:\n', nda_raw_fea_num_to_subj_keys)
 
-    #
-    print('\n kept_file_names: \n', kept_fea_file_names, '\n')
+        print('\nkept features \\ subjectnums:\n', kept_fea_num_keys_to_subjs,'\n')
+        print('\n kept_file_names: \n', kept_fea_file_names, '\n')
 
     #
     # a form_fea-ban az elso 5 az x ertek (time); a masodik 5 pedig amplitude (y_value)
@@ -392,23 +393,24 @@ def main_fn(cluster_num2:int = 6, abrak:bool = False, show_inertia_KMeans:bool =
 
         for i in row_ix2:
             fig_kmeans_gorbek_per_clstr, ax_fig_kmns = pyplot.subplots(figsize=(10, 5))
-            print('ROW_IX: ')
-            print('obj_path_red: ', obj_path_for_red)
-            print('i in row_ix:', i)
+            # print('ROW_IX: ')
+            if(print_extra_info):
+                print('obj_path_red: ', obj_path_for_red)
+                print('i in row_ix:', i)
             avg_vonal = []
             cnt=0
             for ii in i:
 
-                print('\nkirajzolashoz:')
-
-                print('ii in i: ', ii)
-
-                print('kept_fea_file_names[i[ii]]: ', kept_fea_file_names[ii])
-                print(obj_path_for_red + '/' + kept_fea_file_names[ii])
-
                 piros_path = obj_path_for_red + '/' + kept_fea_file_names[ii]
-                print('piros_path: ', piros_path)
                 actualis_piros_vonal = readCSVFileNezegeto(piros_path)
+
+                if (print_extra_info):
+                    print('\nkirajzolashoz:')
+                    print('ii in i: ', ii)
+                    print('kept_fea_file_names[i[ii]]: ', kept_fea_file_names[ii])
+                    print(obj_path_for_red + '/' + kept_fea_file_names[ii])
+                    print('piros_path: ', piros_path)
+
                 if (cnt == 0):
                     avg_vonal = actualis_piros_vonal
                 else:
@@ -420,7 +422,9 @@ def main_fn(cluster_num2:int = 6, abrak:bool = False, show_inertia_KMeans:bool =
                     elif len(avg_vonal)>len(dev_piros_vonal):
                         for suni in range(len(avg_vonal)-len(dev_piros_vonal)):
                             dev_piros_vonal.append(0)
-                    print('\nlen avg_vonal = ', len(avg_vonal), ', len dev_act_piros_v = ', len(dev_piros_vonal))
+
+                    if (print_extra_info):
+                        print('\nlen avg_vonal = ', len(avg_vonal), ', len dev_act_piros_v = ', len(dev_piros_vonal))
                     avg_vonal = [avg_vonal[x] + dev_piros_vonal[x] for x in range(len(avg_vonal))]
                 ax_fig_kmns.plot(generateX_axis(actualis_piros_vonal), actualis_piros_vonal, color="red", lw="2")
                 cnt += 1
