@@ -1,6 +1,9 @@
 import tkinter as tk
 # import alapok as alapok
+from matplotlib import pyplot
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import meghivogato_main as main
+import threading
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -19,8 +22,21 @@ class Application(tk.Frame):
                               command=self.master.destroy)
         self.quit.pack(side="bottom")
 
+        # fig = pyplot.figure()
+        # ax = fig.add_subplot(111)
+        # ax.plot(range(1, 20), range(1,20), marker='o')
+        # ax.set_title('lkfdkjdslkfjsdkljfsldkfkjsdlkfj')
+        # ax.set_xlabel('sdjkfhdskfheruoifher')
+        # ax.set_ylabel('ldjfdslkfjkkdsfhewriufhiuwerfh')
+        # # pyplot.show()
+        # canvas = FigureCanvasTkAgg(fig, master=self)
+        # canvas.draw()
+        # canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+
+    # def say_hi(self):
     def say_hi(self):
-        main.main()
+        thread = threading.Thread(target=main.main, args=(self,))
+        thread.start()
 
         
 

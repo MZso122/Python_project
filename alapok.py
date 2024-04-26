@@ -1,16 +1,20 @@
 
 import os
+import string
 #os.environ["OMP_NUM_THREADS"] = "1"
 
 from numpy import unique
 from numpy import where
 import numpy
 import csv
+import tkinter as tk
 from sklearn.datasets import make_classification
 from sklearn.cluster import KMeans
 from sklearn.cluster import DBSCAN
 from sklearn.cluster import SpectralClustering
 from matplotlib import pyplot
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
 
 
 def print_hi(name):
@@ -66,7 +70,7 @@ def generateX_axis(data_):
     return array_of_1s
 
 
-def main_fn(cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool = False, show_inertia_KMeans:bool = True, show_KMeans_pelda:bool = False,
+def main_fn(gui, cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool = False, show_inertia_KMeans:bool = True, show_KMeans_pelda:bool = False,
             obj_path = 'raw_features_1st_q', obj_path_for_red = 'tomoritett_pirosak'):
 
 # if __name__ == '__main__':
@@ -84,6 +88,19 @@ def main_fn(cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool = Fa
     #obj_path_for_red = 'tomoritett_pirosak'   -Fv arg
 
     #
+    gui.hi_there["text"] = "Running"
+
+ 
+    fig = pyplot.figure()
+    ax = fig.add_subplot(111)
+    # ax.plot(range(1, 20), range(1,20), marker='o')
+    # ax.set_title('lkfdkjdslkfjsdkljfsldkfkjsdlkfj')
+    # ax.set_xlabel('sdjkfhdskfheruoifher')
+    # ax.set_ylabel('ldjfdslkfjkkdsfhewriufhiuwerfh')
+    # # pyplot.show()
+    canvas = FigureCanvasTkAgg(fig, master=gui)
+    # canvas.draw()
+    canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
 
     # ndarray of
     nda_age_sex_bwi = []
@@ -350,7 +367,9 @@ def main_fn(cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool = Fa
     clusters2 = unique(yhat2)
 
     if abrak:
-        fig_3, axarr2 = pyplot.subplots(nrows=rows, ncols=cols, figsize=(18, 9))
+        # fig_3, axarr2 = pyplot.subplots(nrows=rows, ncols=cols, figsize=(18, 9))
+        axarr2=ax
+        ax.clear()
         # print(possible_pairs)
         for cluster2 in clusters2:
             row_ix2 = where(yhat2 == cluster2)
@@ -366,7 +385,10 @@ def main_fn(cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool = Fa
             # pyplot.scatter(ndarray_feldolgozott_features[row_ix2, 0], ndarray_feldolgozott_features[row_ix2, 1])
         axarr2[0, 2].set_title("KMeans (feldolgozott_features -ok) szerint klaszterezve", fontsize=16)
         pyplot.tight_layout()
-        pyplot.show()
+        # pyplot.show()
+        canvas.draw()
+        canvas.get_tk_widget().pack(side='top', fill='both', expand=1)
+
 
     # -----
 
@@ -380,11 +402,16 @@ def main_fn(cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool = Fa
             kmeans.fit(ndarray_feldolgozott_features)
             inertias.append(kmeans.inertia_)
 
-        pyplot.plot(range(1, 20), inertias, marker='o')
-        pyplot.title('Elbow módszer')
-        pyplot.xlabel('Klaszterszám')
-        pyplot.ylabel('Inercia')
-        pyplot.show()
+        # fig = pyplot.figure()
+        # ax = fig.add_subplot(111)
+        ax.clear()
+        ax.plot(range(1, 20), inertias, marker='o')
+        ax.set_title('Elbow módszer')
+        ax.set_xlabel('Klaszterszám')
+        ax.set_ylabel('Inercia')
+        # pyplot.show()
+        # canvas = FigureCanvasTkAgg(fig, master=gui)
+        canvas.draw()
 
     # fig_DB, axarr_DB = pyplot.subplots(nrows=rows, ncols=cols, figsize=(18, 9))
 
@@ -392,7 +419,9 @@ def main_fn(cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool = Fa
         row_ix2 = where(yhat2 == clstr)
 
         for i in row_ix2:
-            fig_kmeans_gorbek_per_clstr, ax_fig_kmns = pyplot.subplots(figsize=(10, 5))
+            # fig_kmeans_gorbek_per_clstr, ax_fig_kmns = pyplot.subplots(figsize=(10, 5))
+            ax_fig_kmns=ax
+            ax.clear()
             # print('ROW_IX: ')
             if(print_extra_info):
                 print('obj_path_red: ', obj_path_for_red)
@@ -431,7 +460,8 @@ def main_fn(cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool = Fa
             ax_fig_kmns.set_title("A klaszterbeli görbék", fontsize=9)
             ax_fig_kmns.plot(generateX_axis(avg_vonal), avg_vonal, color="green", lw="3")
             pyplot.tight_layout()
-            pyplot.show()
+            # pyplot.show()
+            canvas.draw()
 
 
     cnt = 0
@@ -456,6 +486,8 @@ def main_fn(cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool = Fa
 
 
     print('\nDONE :\')')
+    gui.hi_there["text"] = "Run program\n(click me)"
+
 
 
 

@@ -2,8 +2,8 @@
 
 import alapok as alapok
 
-def main():
-    alapok.main_fn()
+def main(gui):
+    alapok.main_fn(gui)
 
 
 
