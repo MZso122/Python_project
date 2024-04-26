@@ -67,7 +67,7 @@ def generateX_axis(data_):
 
 
 def main_fn(cluster_num2:int = 6, abrak:bool = False, show_inertia_KMeans:bool = True, show_KMeans_pelda:bool = False,
-            ):
+            obj_path:string = 'raw_features_1st_q', obj_path_for_red:string = 'tomoritett_pirosak'):
 
 # if __name__ == '__main__':
     print_hi('PyCharm')
@@ -77,6 +77,13 @@ def main_fn(cluster_num2:int = 6, abrak:bool = False, show_inertia_KMeans:bool =
     #show_inertia_KMeans = True    -Fv arg
     #show_KMeans_pelda = False     -Fv arg
 
+    # objektiv eleres a FELDOLGOZATLAN feature vektorok csv-ihez
+    # mondjuk itt mar nem...
+    #obj_path = 'raw_features_1st_q'   ---------Fv arg
+
+    #obj_path_for_red = 'tomoritett_pirosak'   -Fv arg
+
+    #
 
     # ndarray of
     nda_age_sex_bwi = []
@@ -92,10 +99,7 @@ def main_fn(cluster_num2:int = 6, abrak:bool = False, show_inertia_KMeans:bool =
     subject_info = readCSV_File('subject-info.csv')
     ndarray_subj_info = numpy.asarray(subject_info)
 
-    # objektiv eleres a FELDOLGOZATLAN feature vektorok csv-ihez
-    obj_path = 'raw_features_1st_q'
 
-    obj_path_for_red = 'tomoritett_pirosak'
 
     #
     # --------------ez egy nagy szűrés ami végigmegy a fájlokon és csak az ide kellőket olvassa be---------------------
