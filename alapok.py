@@ -1,6 +1,6 @@
 
 import os
-os.environ["OMP_NUM_THREADS"] = "1"
+#os.environ["OMP_NUM_THREADS"] = "1"
 
 from numpy import unique
 from numpy import where
@@ -55,7 +55,7 @@ def readCSVFileNezegeto(file_path):
     return gorbe
 
 
-#némely matpoltlib-es cucchoz kell egy adatsor hosszú tengelyt generálni,
+# némely matpoltlib-es cucchoz kell egy adatsor hosszú tengelyt generálni,
 # mert nem megy anélkül. Ez egy ilyet csinál. Bemenetnek pedig maga az
 # adatsor kell, itt számolok hosszát is.
 def generateX_axis(data_):
@@ -66,14 +66,16 @@ def generateX_axis(data_):
     return array_of_1s
 
 
-def main_fn():
+def main_fn(cluster_num2:int = 6, abrak:bool = False, show_inertia_KMeans:bool = True, show_KMeans_pelda:bool = False,
+            ):
+
 # if __name__ == '__main__':
     print_hi('PyCharm')
 
-    abrak = False
+    #abrak = False       -----------Fv arg
 
-    show_inertia_KMeans = True
-    show_KMeans_pelda = False
+    #show_inertia_KMeans = True    -Fv arg
+    #show_KMeans_pelda = False     -Fv arg
 
 
     # ndarray of
@@ -81,7 +83,7 @@ def main_fn():
 
     # a kesz csv ebbe lesz kiiratva __ Mik szerint:(age, s=sex, b=bmi)  __ Milyen modszerrel
     kiirato_age_s_b_filename_KMEANS = "kimenet/KMeans_ASB_cluster_{}.csv"
-    #ez csak egy kezdet az error handling(ek)nek...
+    # ez csak egy kezdet az TODO error handling(ek)nek...
     if kiirato_age_s_b_filename_KMEANS == "":
         print("jo lenne vmi eleresi_ut/nev a kiirt fajlnak")
 
@@ -279,7 +281,7 @@ def main_fn():
     # print(feldolgozott_features)
     #
 
-    # kmeans pelda szett------------------------------------------------------------------------------------------------
+    # -----------------------------------------kmeans pelda szett-------------------------------------------------------
     # ------------------------------------------------------------------------------------------------------------------
     if show_KMeans_pelda:
         # define dataset
@@ -332,7 +334,7 @@ def main_fn():
 
     ndarray_feldolgozott_features = numpy.asarray(feldolgozott_features)
 
-    cluster_num2 = 12
+    #cluster_num2 = 12
     # define the model
     model2 = KMeans(n_clusters=cluster_num2)
     # fit the model
