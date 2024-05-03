@@ -462,7 +462,8 @@ def main_fn(gui, cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool
             pyplot.tight_layout()
             # pyplot.show()
             canvas.draw()
-
+            
+    gui.status_label.config(text="Processing Done", fg="green")
 
     cnt = 0
     for cluster2 in clusters2:
@@ -483,7 +484,7 @@ def main_fn(gui, cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool
         nda_age_sex_bwi = []
 
 
-
+    # gui.status_label.config(text="Processing Done", fg="green")
 
     print('\nDONE :\')')
     gui.hi_there["text"] = "Run program\n(click me)"
