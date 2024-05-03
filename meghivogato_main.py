@@ -1,6 +1,7 @@
 # ebben gondoltam vegig hivni a subscripteket.
 
 import alapok as alapok
+import string
 
 
 def main(gui, cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool = False, show_inertia_KMeans:bool = True,

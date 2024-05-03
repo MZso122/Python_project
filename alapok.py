@@ -17,12 +17,12 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
 
-def print_hi(name):
+def print_hi(name: string) -> None:
         print(f'Hi, {name} \n')  
 
 
 # ez a subject_info -t olvassa be
-def readCSV_File(file_path):
+def readCSV_File(file_path: string) -> list:
     subject_info_ = []
 
     with open(file_path, 'r') as file:
@@ -37,7 +37,7 @@ def readCSV_File(file_path):
 
 
 # kiíratáshoz használt...
-def generateCSV(darab_, file_name):
+def generateCSV(darab_: list, file_name: string) -> None:
     a = numpy.asarray(darab_)
     # print(a)
     numpy.savetxt(file_name, a.astype(int), fmt='%i',  delimiter=',')
@@ -45,7 +45,7 @@ def generateCSV(darab_, file_name):
 
 
 # ez a klaszterekbe került jelek görbéinek olvasásához kell
-def readCSVFileNezegeto(file_path):
+def readCSVFileNezegeto(file_path: string) -> list:
     gorbe = []
 
     with open(file_path, 'r') as file:
@@ -62,7 +62,7 @@ def readCSVFileNezegeto(file_path):
 # némely matpoltlib-es cucchoz kell egy adatsor hosszú tengelyt generálni,
 # mert nem megy anélkül. Ez egy ilyet csinál. Bemenetnek pedig maga az
 # adatsor kell, itt számolok hosszát is.
-def generateX_axis(data_):
+def generateX_axis(data_: list) -> list:
     array_of_1s = []
     for i in range(len(data_)):
         array_of_1s.append(i)
