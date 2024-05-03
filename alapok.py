@@ -88,8 +88,8 @@ def main_fn(gui, cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool
     #obj_path_for_red = 'tomoritett_pirosak'   -Fv arg
 
     #
-    gui.hi_there["text"] = "Running"
-
+    # gui.hi_there["text"] = "Running"
+    # gui.text = "Running"
  
     fig = pyplot.figure()
     ax = fig.add_subplot(111)
