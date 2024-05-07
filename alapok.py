@@ -1,6 +1,7 @@
 
 import os
 import string
+from time import sleep
 #os.environ["OMP_NUM_THREADS"] = "1"
 
 from numpy import unique
@@ -70,7 +71,7 @@ def generateX_axis(data_: list) -> list:
     return array_of_1s
 
 
-def main_fn(gui, cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool = False, show_inertia_KMeans:bool = True, show_KMeans_pelda:bool = False,
+def main_fn(gui, canvas, fig, cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool = False, show_inertia_KMeans:bool = True, show_KMeans_pelda:bool = False,
             obj_path:string = 'raw_features_1st_q', obj_path_for_red:string = 'tomoritett_pirosak'):
 
 # if __name__ == '__main__':
@@ -91,14 +92,14 @@ def main_fn(gui, cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool
     # gui.hi_there["text"] = "Running"
     # gui.text = "Running"
  
-    fig = pyplot.figure()
+    # fig = pyplot.figure()
     ax = fig.add_subplot(111)
     # ax.plot(range(1, 20), range(1,20), marker='o')
     # ax.set_title('lkfdkjdslkfjsdkljfsldkfkjsdlkfj')
     # ax.set_xlabel('sdjkfhdskfheruoifher')
     # ax.set_ylabel('ldjfdslkfjkkdsfhewriufhiuwerfh')
     # # pyplot.show()
-    canvas = FigureCanvasTkAgg(fig, master=gui)
+    # canvas = FigureCanvasTkAgg(fig, master=gui)
     # canvas.draw()
     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
 
@@ -388,6 +389,7 @@ def main_fn(gui, cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool
         # pyplot.show()
         canvas.draw()
         canvas.get_tk_widget().pack(side='top', fill='both', expand=1)
+        sleep(0.1)
 
 
     # -----
