@@ -76,7 +76,7 @@ def main_fn(gui, canvas, fig, cluster_num2:int = 6, print_extra_info:bool = Fals
 
 # if __name__ == '__main__':
     print_hi('PyCharm')
-
+    print("cluster_num2: ", cluster_num2)
     #abrak = False       -----------Fv arg
 
     #show_inertia_KMeans = True    -Fv arg

@@ -58,6 +58,9 @@ class Application(tk.Frame):
         self.obj_path_entry2.pack()
         self.obj_path_entry2.insert(0, obj_path_for_red)
 
+        self.scale = tk.Scale(self, from_=1, to=12, orient="horizontal", label= "clustre_num: ", variable=cluster_num2)
+        self.scale.pack(side="top")
+
         self.status_label = tk.Label(self, text="", fg="green")
         self.status_label.pack()
 
