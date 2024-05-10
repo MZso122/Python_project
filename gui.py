@@ -8,10 +8,6 @@ import string
 
 
 cluster_num2:int = 6
-print_extra_info:bool = False
-abrak:bool = False
-show_inertia_KMeans:bool = False
-show_KMeans_pelda:bool = False
 obj_path:string = 'raw_features_1st_q'
 obj_path_for_red:string = 'tomoritett_pirosak'
 
@@ -80,8 +76,8 @@ class Application(tk.Frame):
     def say_hi(self):   # self, cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool = False, show_inertia_KMeans:bool = True,
                         # show_KMeans_pelda:bool = False, obj_path:string = 'raw_features_1st_q', obj_path_for_red:string = 'tomoritett_pirosak'):
         obj_path = self.obj_path_entry.get()
-        thread = threading.Thread(target=main.main, args=(self, self.canvas, self.fig, cluster_num2 , print_extra_info , self.abrak.get() ,self.show_inertia_KMeans,
-                                  self.show_KMeans_pelda, obj_path, obj_path_for_red))
+        thread = threading.Thread(target=main.main, args=(self, self.canvas, self.fig, cluster_num2 , self.print_extra_info.get() , self.abrak.get() ,self.show_inertia_KMeans.get(),
+                                  self.show_KMeans_pelda.get(), obj_path, obj_path_for_red))
         thread.start()  
 
         
