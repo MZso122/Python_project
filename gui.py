@@ -36,14 +36,26 @@ class Application(tk.Frame):
                               command=self.master.destroy)
         self.quit.pack(side="bottom")
 
-        self.checkbutton = tk.Checkbutton(self, text="abrak", variable=abrak, onvalue = True, offvalue = False)
+        self.checkbutton = tk.Checkbutton(self, text="Show extra figures", variable=abrak, onvalue = True, offvalue = False)
         self.checkbutton.pack(pady=10)
+        self.checkbutton2 = tk.Checkbutton(self, text="Show inertia", variable=show_inertia_KMeans, onvalue = True, offvalue = False)
+        self.checkbutton2.pack(pady=10)
+        self.checkbutton3 = tk.Checkbutton(self, text="Print extra info to consol", variable=print_extra_info, onvalue = True, offvalue = False)
+        self.checkbutton3.pack(pady=10)
+        self.checkbutton4 = tk.Checkbutton(self, text="Give KMeans Exsample", variable=show_KMeans_pelda, onvalue = True, offvalue = False)
+        self.checkbutton4.pack(pady=10)
+
 
         self.path_label = tk.Label(self, text="Object Path:")
         self.path_label.pack()
         self.obj_path_entry = tk.Entry(self)
         self.obj_path_entry.pack()
         self.obj_path_entry.insert(0, obj_path)
+        self.path_label2 = tk.Label(self, text="Curve path:")
+        self.path_label2.pack()
+        self.obj_path_entry2 = tk.Entry(self)
+        self.obj_path_entry2.pack()
+        self.obj_path_entry2.insert(0, obj_path_for_red)
 
         self.status_label = tk.Label(self, text="", fg="green")
         self.status_label.pack()
