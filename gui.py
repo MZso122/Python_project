@@ -36,13 +36,18 @@ class Application(tk.Frame):
                               command=self.master.destroy)
         self.quit.pack(side="bottom")
 
-        self.checkbutton = tk.Checkbutton(self, text="Show extra figures", variable=abrak, onvalue = True, offvalue = False)
+        self.abrak = tk.BooleanVar()
+        self.show_inertia_KMeans = tk.BooleanVar()
+        self.print_extra_info = tk.BooleanVar()
+        self.show_KMeans_pelda = tk.BooleanVar()
+
+        self.checkbutton = tk.Checkbutton(self, text="Show extra figures", variable=self.abrak, onvalue = True, offvalue = False)
         self.checkbutton.pack(pady=10)
-        self.checkbutton2 = tk.Checkbutton(self, text="Show inertia", variable=show_inertia_KMeans, onvalue = True, offvalue = False)
+        self.checkbutton2 = tk.Checkbutton(self, text="Show inertia", variable=self.show_inertia_KMeans, onvalue = True, offvalue = False)
         self.checkbutton2.pack(pady=10)
-        self.checkbutton3 = tk.Checkbutton(self, text="Print extra info to consol", variable=print_extra_info, onvalue = True, offvalue = False)
+        self.checkbutton3 = tk.Checkbutton(self, text="Print extra info to consol", variable=self.print_extra_info, onvalue = True, offvalue = False)
         self.checkbutton3.pack(pady=10)
-        self.checkbutton4 = tk.Checkbutton(self, text="Give KMeans Exsample", variable=show_KMeans_pelda, onvalue = True, offvalue = False)
+        self.checkbutton4 = tk.Checkbutton(self, text="Give KMeans Exsample", variable=self.show_KMeans_pelda, onvalue = True, offvalue = False)
         self.checkbutton4.pack(pady=10)
 
 
@@ -75,8 +80,8 @@ class Application(tk.Frame):
     def say_hi(self):   # self, cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool = False, show_inertia_KMeans:bool = True,
                         # show_KMeans_pelda:bool = False, obj_path:string = 'raw_features_1st_q', obj_path_for_red:string = 'tomoritett_pirosak'):
         obj_path = self.obj_path_entry.get()
-        thread = threading.Thread(target=main.main, args=(self, self.canvas, self.fig, cluster_num2 , print_extra_info , abrak ,show_inertia_KMeans,
-                                  show_KMeans_pelda, obj_path, obj_path_for_red))
+        thread = threading.Thread(target=main.main, args=(self, self.canvas, self.fig, cluster_num2 , print_extra_info , self.abrak.get() ,self.show_inertia_KMeans,
+                                  self.show_KMeans_pelda, obj_path, obj_path_for_red))
         thread.start()  
 
         
