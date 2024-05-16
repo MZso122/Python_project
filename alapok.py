@@ -77,6 +77,10 @@ def main_fn(gui, canvas, fig, cluster_num2:int = 6, print_extra_info:bool = Fals
 # if __name__ == '__main__':
     print_hi('PyCharm')
     print("cluster_num2: ", cluster_num2)
+    done = False
+    if not done:
+        gui.status_label.config(text="Processing...", fg="black")
+
     #abrak = False       -----------Fv arg
 
     #show_inertia_KMeans = True    -Fv arg
@@ -464,8 +468,9 @@ def main_fn(gui, canvas, fig, cluster_num2:int = 6, print_extra_info:bool = Fals
             pyplot.tight_layout()
             # pyplot.show()
             canvas.draw()
-            
-    gui.status_label.config(text="Processing Done", fg="green")
+    done = True
+    if done:
+        gui.status_label.config(text="Processing Done", fg="green")
 
     cnt = 0
     for cluster2 in clusters2:
