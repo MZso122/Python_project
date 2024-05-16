@@ -71,15 +71,14 @@ def generateX_axis(data_: list) -> list:
     return array_of_1s
 
 
-def main_fn(gui, canvas, fig, cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool = False, show_inertia_KMeans:bool = True, show_KMeans_pelda:bool = False,
+def main_fn(gui, canvas, ax, cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool = False, show_inertia_KMeans:bool = True, show_KMeans_pelda:bool = False,
             obj_path:string = 'raw_features_1st_q', obj_path_for_red:string = 'tomoritett_pirosak'):
-
-# if __name__ == '__main__':
+    
     print_hi('PyCharm')
     print("cluster_num2: ", cluster_num2)
     done = False
     if not done:
-        gui.status_label.config(text="Processing...", fg="black")
+        gui.after(0,gui.status_label.config(text="Processing...", fg="black"))
 
     #abrak = False       -----------Fv arg
 
@@ -91,21 +90,6 @@ def main_fn(gui, canvas, fig, cluster_num2:int = 6, print_extra_info:bool = Fals
     #obj_path = 'raw_features_1st_q'   ---------Fv arg
 
     #obj_path_for_red = 'tomoritett_pirosak'   -Fv arg
-
-    #
-    # gui.hi_there["text"] = "Running"
-    # gui.text = "Running"
- 
-    # fig = pyplot.figure()
-    ax = fig.add_subplot(111)
-    # ax.plot(range(1, 20), range(1,20), marker='o')
-    # ax.set_title('lkfdkjdslkfjsdkljfsldkfkjsdlkfj')
-    # ax.set_xlabel('sdjkfhdskfheruoifher')
-    # ax.set_ylabel('ldjfdslkfjkkdsfhewriufhiuwerfh')
-    # # pyplot.show()
-    # canvas = FigureCanvasTkAgg(fig, master=gui)
-    # canvas.draw()
-    canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
 
     # ndarray of
     nda_age_sex_bwi = []
@@ -331,9 +315,10 @@ def main_fn(gui, canvas, fig, cluster_num2:int = 6, print_extra_info:bool = Fals
             row_ix1 = where(yhat == cluster)
             print(row_ix1)
             # create scatter of these samples
-            pyplot.scatter(X[row_ix1, 0], X[row_ix1, 1])
+            ax.scatter(X[row_ix1, 0], X[row_ix1, 1])
         # show the plot
-        pyplot.show()
+        gui.after(0, canvas.draw())
+        sleep(1)
 
     #
     # k-means clustering------------------------------------------------------------------------------------------------
@@ -385,14 +370,17 @@ def main_fn(gui, canvas, fig, cluster_num2:int = 6, print_extra_info:bool = Fals
                 # print(pp)
                 # print(pp//rows)
                 # TODO ezek lehet csak akkor jok, ha pontosan jon ki a 'row*col = n alatt a k '
+                # TODO ezt itt v meg kellene csinalni, h jo legyen, v kivenni az abrakot teljes egeszeben, csak akkor ehes marad majd a lo
                 axarr2[pp%rows, (pp//rows)].set_ylabel("Dims:{} {}".format(possible_pairs[pp*2], possible_pairs[2*pp+1]), fontsize=8, rotation=90)
                 axarr2[pp%rows, (pp//rows)].scatter(ndarray_feldolgozott_features[row_ix2, possible_pairs[pp*2]], ndarray_feldolgozott_features[row_ix2, possible_pairs[pp*2+1]])
             # pyplot.scatter(ndarray_feldolgozott_features[row_ix2, 0], ndarray_feldolgozott_features[row_ix2, 1])
         axarr2[0, 2].set_title("KMeans (feldolgozott_features -ok) szerint klaszterezve", fontsize=16)
-        pyplot.tight_layout()
+        # pyplot.tight_layout() # sztem ez itt igy nem, lesz jo
         # pyplot.show()
-        canvas.draw()
-        canvas.get_tk_widget().pack(side='top', fill='both', expand=1)
+        gui.after(0, canvas.draw())
+        # canvas.draw()
+        gui.after(0, canvas.get_tk_widget().pack(side='top', fill='both', expand=1))
+        # canvas.get_tk_widget().pack(side='top', fill='both', expand=1)
         sleep(0.1)
 
 
@@ -408,16 +396,14 @@ def main_fn(gui, canvas, fig, cluster_num2:int = 6, print_extra_info:bool = Fals
             kmeans.fit(ndarray_feldolgozott_features)
             inertias.append(kmeans.inertia_)
 
-        # fig = pyplot.figure()
-        # ax = fig.add_subplot(111)
+
         ax.clear()
         ax.plot(range(1, 20), inertias, marker='o')
         ax.set_title('Elbow módszer')
         ax.set_xlabel('Klaszterszám')
         ax.set_ylabel('Inercia')
-        # pyplot.show()
-        # canvas = FigureCanvasTkAgg(fig, master=gui)
-        canvas.draw()
+        gui.after(0, canvas.draw())
+        sleep(0.2)
 
     # fig_DB, axarr_DB = pyplot.subplots(nrows=rows, ncols=cols, figsize=(18, 9))
 
@@ -467,10 +453,11 @@ def main_fn(gui, canvas, fig, cluster_num2:int = 6, print_extra_info:bool = Fals
             ax_fig_kmns.plot(generateX_axis(avg_vonal), avg_vonal, color="green", lw="3")
             pyplot.tight_layout()
             # pyplot.show()
-            canvas.draw()
+            # canvas.draw()
+            gui.after(0, canvas.draw())
     done = True
     if done:
-        gui.status_label.config(text="Processing Done", fg="green")
+        gui.after(0, gui.status_label.config(text="Processing Done", fg="green"))
 
     cnt = 0
     for cluster2 in clusters2:
@@ -494,7 +481,7 @@ def main_fn(gui, canvas, fig, cluster_num2:int = 6, print_extra_info:bool = Fals
     # gui.status_label.config(text="Processing Done", fg="green")
 
     print('\nDONE :\')')
-    gui.hi_there["text"] = "Run program\n(click me)"
+    # gui.hi_there["text"] = "Run program\n(click me)"
 
 
 

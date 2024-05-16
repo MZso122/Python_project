@@ -82,22 +82,15 @@ class Application(tk.Frame):
         plot_frame = tk.Frame(self)
         plot_frame.pack(side="right", fill="both", expand=True)
         self.fig = pyplot.figure()
-        # ax = fig.add_subplot(111)
-        # ax.plot(range(1, 20), range(1,20), marker='o')
-        # ax.set_title('lkfdkjdslkfjsdkljfsldkfkjsdlkfj')
-        # ax.set_xlabel('sdjkfhdskfheruoifher')
-        # ax.set_ylabel('ldjfdslkfjkkdsfhewriufhiuwerfh')
-        # # pyplot.show()
+        self.ax = self.fig.add_subplot(111)
         self.canvas = FigureCanvasTkAgg(self.fig, master=plot_frame)
         self.canvas.get_tk_widget().pack(side="top", fill="both", expand=True)
-        # canvas.draw()
-        # canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
 
     # def say_hi(self):
     def say_hi(self):   # self, cluster_num2:int = 6, print_extra_info:bool = False, abrak:bool = False, show_inertia_KMeans:bool = True,
                         # show_KMeans_pelda:bool = False, obj_path:string = 'raw_features_1st_q', obj_path_for_red:string = 'tomoritett_pirosak'):
         obj_path = self.obj_path_entry.get()
-        thread = threading.Thread(target=main.main, args=(self, self.canvas, self.fig, cluster_num2 , self.print_extra_info.get() , self.abrak.get() ,self.show_inertia_KMeans.get(),
+        thread = threading.Thread(target=main.main, args=(self, self.canvas, self.ax, cluster_num2 , self.print_extra_info.get() , self.abrak.get() ,self.show_inertia_KMeans.get(),
                                   self.show_KMeans_pelda.get(), obj_path, obj_path_for_red))
         thread.start()  
 
