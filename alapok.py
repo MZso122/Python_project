@@ -15,6 +15,8 @@ from sklearn.cluster import DBSCAN
 from sklearn.cluster import SpectralClustering
 from matplotlib import pyplot
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+# from goto import comefrom, label
+
 
 
 
@@ -80,6 +82,7 @@ def main_fn(gui, canvas, ax, cluster_num2:int = 6, print_extra_info:bool = False
     if not done:
         gui.after(0,gui.status_label.config(text="Processing...", fg="black"))
 
+    gui.after(0, lambda: ax.clear())
     #abrak = False       -----------Fv arg
 
     #show_inertia_KMeans = True    -Fv arg
@@ -124,7 +127,15 @@ def main_fn(gui, canvas, ax, cluster_num2:int = 6, print_extra_info:bool = False
     # 7+ -> a karakterpontok t, y[=f(t)] koordinataparok sorban: x1, y1, x2, y2, x3.......
 
     # az osszes feature_vec beolvasas, listaba
-    list_of_files_features = [f for f in os.listdir(obj_path) if f.endswith('RawFeatures.csv')]
+    
+    try:
+        list_of_files_features = [f for f in os.listdir(obj_path) if f.endswith('RawFeatures.csv')]
+    except Exception as e:
+        print("An error occurred while retrieving the list of files:", str(e))
+        gui.after(0, lambda: tk.messagebox.showinfo("Warning", "Invalid path!"))
+        gui.after(0, gui.status_label.config(text="Processing error", fg="red"))
+        return
+
 
     # ezek minosegi mutatok
     keves_alapjan_atlagolt = 0
@@ -143,104 +154,110 @@ def main_fn(gui, canvas, ax, cluster_num2:int = 6, print_extra_info:bool = False
 
     # ez a vegtelen sor ertekeli a minosegeket es osszeallitja az elobbi listakat
     # itt lehet/van olyan, hogy eldob meg a kapott fea_vec -okbol, ha nem eleg jo a minoseguk.
-    for f in range(len(list_of_files_features)):
-        temp_features = []
-        inner_temp = []
+    try:
+        for f in range(len(list_of_files_features)):
+            temp_features = []
+            inner_temp = []
 
-        feature_path = obj_path + '/' + list_of_files_features[f]
-        actualis_features = readCSVFileNezegeto(feature_path)
-        raw_fea_num_to_subj_keys.append(actualis_features[5])   # az 5os helyen a subj_num utazik
-        temp_features.append(actualis_features[7:])             # 7tol felfele vannak a megtalalt karakterisztikus pontok adatai
-        length_L.append(actualis_features[4])                   # milyen hosszu volt az adott jel. (T_max)
+            feature_path = obj_path + '/' + list_of_files_features[f]
+            actualis_features = readCSVFileNezegeto(feature_path)
+            raw_fea_num_to_subj_keys.append(actualis_features[5])   # az 5os helyen a subj_num utazik
+            temp_features.append(actualis_features[7:])             # 7tol felfele vannak a megtalalt karakterisztikus pontok adatai
+            length_L.append(actualis_features[4])                   # milyen hosszu volt az adott jel. (T_max)
 
-        if list_of_files_features[f][16] == '0':
-            jelmintaszam_0as += 1
-            #           print('0as a szama: ', list_of_files_features[f])
-        elif (actualis_features[2]/actualis_features[3]) > 0.4:
-            keves_alapjan_atlagolt += 1
-            #           print('keves jelbol atlagolt: ', list_of_files_features[f])
-        else:
-            if len(temp_features[0]) == 10:
-                #           print('GOOD; 5 csucs: ', list_of_files_features[f])
-                kept_fea_num_keys_to_subjs.append(actualis_features[5])
-                #           print(list_of_files_features[f])
-                #           print(list_of_files_features[f][:17])
-                kept_fea_file_names.append(list_of_files_features[f][:17]+'.csv_Atlag_gorbe_piros.csv')
-                #           print('\n')
-                #           print(feature_path + ':')
-                #           print('5 csucs found')
-                formazott_features.append(temp_features[0])
-            elif len(temp_features[0]) == 8:
-                #           print('GOOD; 4 csucs: ', list_of_files_features[f])
-                kept_fea_num_keys_to_subjs.append(actualis_features[5])
-                kept_fea_file_names.append(list_of_files_features[f][:17]+'.csv_Atlag_gorbe_piros.csv')
+            if list_of_files_features[f][16] == '0':
+                jelmintaszam_0as += 1
+                #           print('0as a szama: ', list_of_files_features[f])
+            elif (actualis_features[2]/actualis_features[3]) > 0.4:
+                keves_alapjan_atlagolt += 1
+                #           print('keves jelbol atlagolt: ', list_of_files_features[f])
+            else:
+                if len(temp_features[0]) == 10:
+                    #           print('GOOD; 5 csucs: ', list_of_files_features[f])
+                    kept_fea_num_keys_to_subjs.append(actualis_features[5])
+                    #           print(list_of_files_features[f])
+                    #           print(list_of_files_features[f][:17])
+                    kept_fea_file_names.append(list_of_files_features[f][:17]+'.csv_Atlag_gorbe_piros.csv')
+                    #           print('\n')
+                    #           print(feature_path + ':')
+                    #           print('5 csucs found')
+                    formazott_features.append(temp_features[0])
+                elif len(temp_features[0]) == 8:
+                    #           print('GOOD; 4 csucs: ', list_of_files_features[f])
+                    kept_fea_num_keys_to_subjs.append(actualis_features[5])
+                    kept_fea_file_names.append(list_of_files_features[f][:17]+'.csv_Atlag_gorbe_piros.csv')
 
-                inner_temp.append(temp_features[0][0])
-                inner_temp.append(temp_features[0][1])
-                inner_temp.append((temp_features[0][1] + temp_features[0][2]) / 2)
-                inner_temp.append(temp_features[0][2])
-                inner_temp.append(temp_features[0][3])
+                    inner_temp.append(temp_features[0][0])
+                    inner_temp.append(temp_features[0][1])
+                    inner_temp.append((temp_features[0][1] + temp_features[0][2]) / 2)
+                    inner_temp.append(temp_features[0][2])
+                    inner_temp.append(temp_features[0][3])
 
-                inner_temp.append(temp_features[0][4])
-                inner_temp.append(temp_features[0][5])
-                inner_temp.append((temp_features[0][5] + temp_features[0][6]) / 2)
-                inner_temp.append(temp_features[0][6])
-                inner_temp.append(temp_features[0][7])
+                    inner_temp.append(temp_features[0][4])
+                    inner_temp.append(temp_features[0][5])
+                    inner_temp.append((temp_features[0][5] + temp_features[0][6]) / 2)
+                    inner_temp.append(temp_features[0][6])
+                    inner_temp.append(temp_features[0][7])
 
-                formazott_features.append(inner_temp)
-            elif len(temp_features[0]) == 6:
-                #           print('GOOD; 3 csucs: ', list_of_files_features[f])
-                kept_fea_num_keys_to_subjs.append(actualis_features[5])
-                kept_fea_file_names.append(list_of_files_features[f][:17]+'.csv_Atlag_gorbe_piros.csv')
+                    formazott_features.append(inner_temp)
+                elif len(temp_features[0]) == 6:
+                    #           print('GOOD; 3 csucs: ', list_of_files_features[f])
+                    kept_fea_num_keys_to_subjs.append(actualis_features[5])
+                    kept_fea_file_names.append(list_of_files_features[f][:17]+'.csv_Atlag_gorbe_piros.csv')
 
-                #           print('\n')
-                #           print(feature_path + ':')
-                #           print('3 pont van, ket csucsu jel')
+                    #           print('\n')
+                    #           print(feature_path + ':')
+                    #           print('3 pont van, ket csucsu jel')
 
-                inner_temp.append(temp_features[0][0])
-                inner_temp.append(0)
-                inner_temp.append(0)
-                inner_temp.append(temp_features[0][1])
-                inner_temp.append(temp_features[0][2])
-                #           formazott_features.append(temp_features[0][1:])
+                    inner_temp.append(temp_features[0][0])
+                    inner_temp.append(0)
+                    inner_temp.append(0)
+                    inner_temp.append(temp_features[0][1])
+                    inner_temp.append(temp_features[0][2])
+                    #           formazott_features.append(temp_features[0][1:])
 
-                inner_temp.append(temp_features[0][3])
-                inner_temp.append(0)
-                inner_temp.append(0)
-                inner_temp.append(temp_features[0][4])
-                inner_temp.append(temp_features[0][5])
-                #           formazott_features.append(temp_features[0][4:])
+                    inner_temp.append(temp_features[0][3])
+                    inner_temp.append(0)
+                    inner_temp.append(0)
+                    inner_temp.append(temp_features[0][4])
+                    inner_temp.append(temp_features[0][5])
+                    #           formazott_features.append(temp_features[0][4:])
 
-                formazott_features.append(inner_temp)
-            elif len(temp_features[0]) == 2:
-                #           print('GOOD; 1 csucs: ', list_of_files_features[f])
-                kept_fea_num_keys_to_subjs.append(actualis_features[5])
-                kept_fea_file_names.append(list_of_files_features[f][:17]+'.csv_Atlag_gorbe_piros.csv')
+                    formazott_features.append(inner_temp)
+                elif len(temp_features[0]) == 2:
+                    #           print('GOOD; 1 csucs: ', list_of_files_features[f])
+                    kept_fea_num_keys_to_subjs.append(actualis_features[5])
+                    kept_fea_file_names.append(list_of_files_features[f][:17]+'.csv_Atlag_gorbe_piros.csv')
 
-                #           print('\n')
-                #           print(feature_path + ':')
-                #           print('1 pont van, egy csucsu jel')
+                    #           print('\n')
+                    #           print(feature_path + ':')
+                    #           print('1 pont van, egy csucsu jel')
 
-                inner_temp.append(temp_features[0][0])
-                inner_temp.append(0)
-                inner_temp.append(0)
-                inner_temp.append(0)
-                inner_temp.append(0)
+                    inner_temp.append(temp_features[0][0])
+                    inner_temp.append(0)
+                    inner_temp.append(0)
+                    inner_temp.append(0)
+                    inner_temp.append(0)
 
-                inner_temp.append(temp_features[0][1])
-                inner_temp.append(0)
-                inner_temp.append(0)
-                inner_temp.append(0)
-                inner_temp.append(0)
+                    inner_temp.append(temp_features[0][1])
+                    inner_temp.append(0)
+                    inner_temp.append(0)
+                    inner_temp.append(0)
+                    inner_temp.append(0)
 
-                formazott_features.append(inner_temp)
-            else:   # ez kinda egy hiba nezegeto, igy itt hagytam az else-ben kommentben
-                nem_jo_pontszam += 1
-                # print('Nem 0as, jo atl, de nem jo pontszam: ', list_of_files_features[f])
-                # print('\n')
-                # print(feature_path + ':')
-                # print('rossz csucsszam. Csucsszam:')
-                # print(temp_features[0])
+                    formazott_features.append(inner_temp)
+                else:   # ez kinda egy hiba nezegeto, igy itt hagytam az else-ben kommentben
+                    nem_jo_pontszam += 1
+                    # print('Nem 0as, jo atl, de nem jo pontszam: ', list_of_files_features[f])
+                    # print('\n')
+                    # print(feature_path + ':')
+                    # print('rossz csucsszam. Csucsszam:')
+                    # print(temp_features[0])
+    except Exception as e:
+        print("An error occurred while processing the files", str(e))
+        gui.after(0, lambda: tk.messagebox.showinfo("Warning", "Invalid path content of input files"))
+        gui.after(0, gui.status_label.config(text="Processing error", fg="red"))
+        return
 
     # az elobbi for-loop eredmenyeinek kiiratasa
     print("kiiertekeles:\n")
@@ -356,32 +373,6 @@ def main_fn(gui, canvas, ax, cluster_num2:int = 6, print_extra_info:bool = False
     # retrieve unique clusters
     clusters2 = unique(yhat2)
 
-    if abrak:
-        # fig_3, axarr2 = pyplot.subplots(nrows=rows, ncols=cols, figsize=(18, 9))
-        axarr2=ax
-        ax.clear()
-        # print(possible_pairs)
-        for cluster2 in clusters2:
-            row_ix2 = where(yhat2 == cluster2)
-            # print(row_ix2)
-            # print(type(row_ix2))
-            # print(ndarray_feldolgozott_features[row_ix2, 0])
-            for pp in range(int(len(possible_pairs)/2)):
-                # print(pp)
-                # print(pp//rows)
-                # TODO ezek lehet csak akkor jok, ha pontosan jon ki a 'row*col = n alatt a k '
-                # TODO ezt itt v meg kellene csinalni, h jo legyen, v kivenni az abrakot teljes egeszeben, csak akkor ehes marad majd a lo
-                axarr2[pp%rows, (pp//rows)].set_ylabel("Dims:{} {}".format(possible_pairs[pp*2], possible_pairs[2*pp+1]), fontsize=8, rotation=90)
-                axarr2[pp%rows, (pp//rows)].scatter(ndarray_feldolgozott_features[row_ix2, possible_pairs[pp*2]], ndarray_feldolgozott_features[row_ix2, possible_pairs[pp*2+1]])
-            # pyplot.scatter(ndarray_feldolgozott_features[row_ix2, 0], ndarray_feldolgozott_features[row_ix2, 1])
-        axarr2[0, 2].set_title("KMeans (feldolgozott_features -ok) szerint klaszterezve", fontsize=16)
-        # pyplot.tight_layout() # sztem ez itt igy nem, lesz jo
-        # pyplot.show()
-        gui.after(0, canvas.draw())
-        # canvas.draw()
-        gui.after(0, canvas.get_tk_widget().pack(side='top', fill='both', expand=1))
-        # canvas.get_tk_widget().pack(side='top', fill='both', expand=1)
-        sleep(0.1)
 
 
     # -----
@@ -421,9 +412,14 @@ def main_fn(gui, canvas, ax, cluster_num2:int = 6, print_extra_info:bool = False
             avg_vonal = []
             cnt=0
             for ii in i:
-
-                piros_path = obj_path_for_red + '/' + kept_fea_file_names[ii]
-                actualis_piros_vonal = readCSVFileNezegeto(piros_path)
+                try:
+                    piros_path = obj_path_for_red + '/' + kept_fea_file_names[ii]
+                    actualis_piros_vonal = readCSVFileNezegeto(piros_path)
+                except Exception as e:
+                    print("An error occurred while processing the piros vonalak files", str(e))
+                    gui.after(0, lambda: tk.messagebox.showinfo("Warning", "error in piros vonalak"))
+                    gui.after(0, gui.status_label.config(text="Processing error", fg="red"))
+                    return
 
                 if (print_extra_info):
                     print('\nkirajzolashoz:')
@@ -458,7 +454,8 @@ def main_fn(gui, canvas, ax, cluster_num2:int = 6, print_extra_info:bool = False
     done = True
     if done:
         gui.after(0, gui.status_label.config(text="Processing Done", fg="green"))
-
+    else:
+        gui.after(0, gui.status_label.config(text="Processing error", fg="red"))
     cnt = 0
     for cluster2 in clusters2:
         cnt += 1
@@ -472,8 +469,13 @@ def main_fn(gui, canvas, ax, cluster_num2:int = 6, print_extra_info:bool = False
 
         #           print('\n')
         #           print(nda_age_sex_bwi)
-
-        generateCSV(nda_age_sex_bwi, kiirato_age_s_b_filename_KMEANS.format(cnt))
+        try:
+            generateCSV(nda_age_sex_bwi, kiirato_age_s_b_filename_KMEANS.format(cnt))
+        except Exception as e:
+            print("An error occurred while writing the output files", str(e))
+            gui.after(0, lambda: tk.messagebox.showinfo("Warning", "error in writing output files"))
+            gui.after(0, gui.status_label.config(text="Processing error", fg="red"))
+            return
 
         nda_age_sex_bwi = []
 
