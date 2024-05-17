@@ -51,13 +51,13 @@ class Application(tk.Frame):
         self.print_extra_info = tk.BooleanVar()
         self.show_KMeans_pelda = tk.BooleanVar()
 
-        self.checkbutton = tk.Checkbutton(widget_frame, text="Show extra figures", variable=self.abrak, onvalue = True, offvalue = False)
-        self.checkbutton.pack(pady=10, anchor="w")
+        # self.checkbutton = tk.Checkbutton(widget_frame, text="Show extra figures", variable=self.abrak, onvalue = True, offvalue = False)
+        # self.checkbutton.pack(pady=10, anchor="w")
         self.checkbutton2 = tk.Checkbutton(widget_frame, text="Show inertia", variable=self.show_inertia_KMeans, onvalue = True, offvalue = False)
         self.checkbutton2.pack(pady=10, anchor="w")
         self.checkbutton3 = tk.Checkbutton(widget_frame, text="Print extra info to consol", variable=self.print_extra_info, onvalue = True, offvalue = False)
         self.checkbutton3.pack(pady=10, anchor="w")
-        self.checkbutton4 = tk.Checkbutton(widget_frame, text="Give KMeans Exsample", variable=self.show_KMeans_pelda, onvalue = True, offvalue = False)
+        self.checkbutton4 = tk.Checkbutton(widget_frame, text="Give KMeans Example", variable=self.show_KMeans_pelda, onvalue = True, offvalue = False)
         self.checkbutton4.pack(pady=10, anchor="w")
 
 
